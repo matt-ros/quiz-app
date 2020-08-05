@@ -1,0 +1,20 @@
+* {
+    box-sizing: border-box;
+}
+
+header {
+    text-align: center;
+}
+
+.main-box {
+    text-align: center;
+    border: 1px solid gray;
+    margin: 50px;
+    padding: 20px;
+    background-color: gold;
+}
+
+form {
+    padding-left: 30px;
+    text-align: left;
+}
