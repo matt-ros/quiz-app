@@ -2,7 +2,7 @@
 Interactive web app quiz about beer
 
 ## Current Status
-HTML wireframe only
+App is functional other than continuous score and question number display.  Score does display properly at the end of the quiz.  Still minimal styling.
 
 ## About me
 [Github Profile](https://www.github.com/matt-ros)
