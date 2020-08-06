@@ -55,7 +55,6 @@ let score = 0;
 
 function startQuiz() {
     $('.main-box').on('click', '#start-button', event => {
-        console.log('Start Quiz has been called');
         $('.js-question').html(`<p>Question ${currentQuestion+1}/${STORE.length}</p>`);
         $('.js-score').html(`<p>Score: ${score}`);
         generateQuestion();
@@ -75,19 +74,16 @@ function generateQuestion() {
     <h2>${STORE[currentQuestion].question}</h2>
     </form>`);
     generateOptions();
-    console.log('Generate Question has been called, question is ' + currentQuestion + ', score is ' + score);
 }
 
 function correctAnswer() {
     $('.main-box').html('<h3>Correct!</h3><input id="next-button" type="button" value="Next Question">');
     score++;
     $('.js-score').html(`<p>Score: ${score}`);
-    console.log('Correct Answer');
 }
 
 function incorrectAnswer() {
     $('.main-box').html(`<h3>Incorrect! The correct answer was ${STORE[currentQuestion].answer}</h3><input id="next-button" type="button" value="Next Question">`);
-    console.log('Incorrect Answer');
 }
 
 function submitAnswer() {
@@ -103,8 +99,6 @@ function submitAnswer() {
         else {
             incorrectAnswer();
         }
-        console.log('Submit Answer has been called with value of ' + userAnswer);
-
     });
 }
 
@@ -116,7 +110,6 @@ function displayResults() {
     else {
         $('.main-box').append('<p>Better luck next time!</p><img src="./images/spill.jpg" alt="Man in leather jacket pouring can of beer on his face"><br><input id="restart-button" type="button" value="Start Over">');
     }
-    console.log('Display Results has been called');
 }
 
 function nextQuestion() {
@@ -130,7 +123,6 @@ function nextQuestion() {
             displayResults();
         }
     });
-    console.log('Next Question has been called');
 }
 
 function restartQuiz() {
@@ -141,7 +133,6 @@ function restartQuiz() {
         $('.js-score').html(`<p>Score: ${score}`);
         generateQuestion();
     });
-    console.log('Restart Quiz has been called');
 }
 
 function handleQuiz() {
