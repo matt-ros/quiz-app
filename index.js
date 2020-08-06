@@ -56,6 +56,8 @@ let score = 0;
 function startQuiz() {
     $('.main-box').on('click', '#start-button', event => {
         console.log('Start Quiz has been called');
+        $('.js-question').html(`<p>Question ${currentQuestion+1}/${STORE.length}</p>`);
+        $('.js-score').html(`<p>Score: ${score}`);
         generateQuestion();
     });
 }
@@ -63,12 +65,12 @@ function startQuiz() {
 function generateOptions() {
     for (let i=0; i < STORE[currentQuestion].options.length; i++) {
         $('.main-box form').append(`<input name="option" type="radio" id="${STORE[currentQuestion].options[i]}" value="${STORE[currentQuestion].options[i]}" required>
-        <label for="${STORE[currentQuestion].options[i]}">${STORE[currentQuestion].options[i]}</label><br>`);
+        <label for="${STORE[currentQuestion].options[i]}">${STORE[currentQuestion].options[i]}</label><br><br>`);
     }
     $('.main-box form').append('<button id="submit-button" type="submit">Submit</button>');
 }
 
-function generateQuestion() {
+function generateQuestion() {    
     $('.main-box').html(`<form>
     <h2>${STORE[currentQuestion].question}</h2>
     </form>`);
@@ -79,6 +81,7 @@ function generateQuestion() {
 function correctAnswer() {
     $('.main-box').html('<h3>Correct!</h3><input id="next-button" type="button" value="Next Question">');
     score++;
+    $('.js-score').html(`<p>Score: ${score}`);
     console.log('Correct Answer');
 }
 
@@ -90,13 +93,17 @@ function incorrectAnswer() {
 function submitAnswer() {
     $('.main-box').on('click', '#submit-button', event => {
         event.preventDefault();
-        if ($('input:checked').val() === STORE[currentQuestion].answer) {
+        let userAnswer = $('input:checked').val();
+        if (userAnswer === undefined) {
+            alert('Please choose an answer');
+        }
+        else if (userAnswer === STORE[currentQuestion].answer) {
             correctAnswer();
         }
         else {
             incorrectAnswer();
         }
-        console.log('Submit Answer has been called with value of ' + $('input:checked').val());
+        console.log('Submit Answer has been called with value of ' + userAnswer);
 
     });
 }
@@ -116,6 +123,7 @@ function nextQuestion() {
     $('.main-box').on('click', '#next-button', event => {
         currentQuestion++;
         if (currentQuestion < STORE.length) {
+            $('.js-question').html(`<p>Question ${currentQuestion+1}/${STORE.length}</p>`);
             generateQuestion();
         }
         else {
@@ -129,6 +137,8 @@ function restartQuiz() {
     $('.main-box').on('click', '#restart-button', event => {
         currentQuestion = 0;
         score = 0;
+        $('.js-question').html(`<p>Question ${currentQuestion+1}/${STORE.length}</p>`);
+        $('.js-score').html(`<p>Score: ${score}`);
         generateQuestion();
     });
     console.log('Restart Quiz has been called');
