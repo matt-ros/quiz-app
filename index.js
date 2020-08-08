@@ -54,11 +54,19 @@ const STORE = {
     score: 0
 };
 
+function updateProgress() {
+    return `<p>Question ${STORE.currentQuestion+1}/${STORE.questions.length}</p>`;
+}
+
+function updateScore() {
+    return `<p>Score: ${STORE.score}</p>`
+}
+
 function startQuiz() {
     $('.main-box').on('click', '#start-button', event => {
-        $('.js-question').html(`<p>Question ${STORE.currentQuestion+1}/${STORE.questions.length}</p>`);
-        $('.js-score').html(`<p>Score: ${STORE.score}`);
-        generateForm();
+        $('.js-question').html(updateProgress());
+        $('.js-score').html(updateScore());
+        renderQuestion();
     });
 }
 
@@ -71,15 +79,15 @@ function generateOptions(formHTML) {
     return formHTML;
 }
 
-function renderQuestion(formHTML) {
-    $('.main-box').html(formHTML);
+function renderQuestion() {
+    $('.main-box').html(generateForm());
 }
 
 function generateForm() {    
     let formHTML = `<form>
     <h2>${STORE.questions[STORE.currentQuestion].question}</h2>`;
     formHTML = generateOptions(formHTML);
-    renderQuestion(formHTML);
+    return formHTML;
 }
 
 function generateCorrect() {
@@ -93,7 +101,7 @@ function generateIncorrect() {
 function correctAnswer() {
     $('.main-box').html(generateCorrect());
     STORE.score++;
-    $('.js-score').html(`<p>Score: ${STORE.score}`);
+    $('.js-score').html(updateScore());
 }
 
 function incorrectAnswer() {
@@ -124,8 +132,12 @@ function generateBadResult() {
     return '<p>Better luck next time!</p><img src="./images/spill.jpg" alt="Man in leather jacket pouring can of beer on his face"><br><input id="restart-button" type="button" value="Start Over">';
 }
 
+function generateFinalScore() {
+    return `<h3>Score: ${STORE.score}/${STORE.questions.length}</h3>`;
+}
+
 function displayResults() {
-    $('.main-box').html(`<h3>Score: ${STORE.score}/${STORE.questions.length}</h3>`);
+    $('.main-box').html(generateFinalScore());
     if (STORE.score/STORE.questions.length >= 0.7) {
         $('.main-box').append(generateGoodResult());
     }
@@ -138,8 +150,8 @@ function nextQuestion() {
     $('.main-box').on('click', '#next-button', event => {
         STORE.currentQuestion++;
         if (STORE.currentQuestion < STORE.questions.length) {
-            $('.js-question').html(`<p>Question ${STORE.currentQuestion+1}/${STORE.questions.length}</p>`);
-            generateForm();
+            $('.js-question').html(updateProgress());
+            renderQuestion();
         }
         else {
             displayResults();
@@ -151,9 +163,9 @@ function restartQuiz() {
     $('.main-box').on('click', '#restart-button', event => {
         STORE.currentQuestion = 0;
         STORE.score = 0;
-        $('.js-question').html(`<p>Question ${STORE.currentQuestion+1}/${STORE.questions.length}</p>`);
-        $('.js-score').html(`<p>Score: ${STORE.score}`);
-        generateForm();
+        $('.js-question').html(updateProgress());
+        $('.js-score').html(updateScore());
+        renderQuestion();
     });
 }
 
